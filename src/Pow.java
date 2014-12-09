@@ -47,7 +47,7 @@ public class Pow {
             for (int i = 0; i < res2.b.M; i++)
                 u.setElement(i + res1.b.M, 0, Q2t.GetElement(i, 0));
 
-            
+
 
 
             QL.a = T1;
