@@ -68,6 +68,24 @@ final public class Matrix {
         return B;
     }
 
+    public static Matrix random3diag(int M, int N) {
+        Matrix A = Matrix.randomsym(M, N);
+        for (int i = 2; i < M; i++)
+            for (int j = 0; j <= ( - 2 + i); j++) {
+                A.setElement(i, j, 0);
+                //System.out.println(i + "--" + j);
+            }
+        for (int i = 2; i < M; i++)
+            for (int j = 0; j <= ( - 2 + i); j++) {
+                A.setElement(j, i, 0);
+                //System.out.println(i + "--" + j);
+            }
+
+        System.out.println("3diag Matrix:\n");
+        A.show();
+        return A;
+    }
+
     public static Matrix Hilbert(int M, int N){
         Matrix A = new Matrix(M, N);
         for (int i = 0; i < M; i++)
