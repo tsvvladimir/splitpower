@@ -55,16 +55,18 @@ public class CenturyEquation {
 
     private double psi_2_sh(double lambda_j, int i) {
         double psi1sh = 0;
-        for (int j = i + 1; j < u.length; j++)
+        for (int j = i; j < u.length; j++)
             psi1sh += ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
         return psi1sh;
     }
 
     private double psi_2(double lambda_j, int i) {
         double psi1 = 0;
-        for (int j = i+ 1; j < u.length; j++)
+        for (int j = i; j < u.length; j++)
             psi1 += ro*u[j]*u[j]/(d[j] - lambda_j);
+        //System.out.println()
         return psi1;
+
     }
 
     private double interval(int i) {
@@ -79,15 +81,17 @@ public class CenturyEquation {
 
             double psi2sh = psi_2_sh(lambda0, i);
             double c2 = psi2sh * (d[i] - lambda0);
+            System.out.println(psi_2(lambda0, i) + "and" + psi1sh * (d[i] - lambda0));
             double c2_kr = psi_2(lambda0, i) - psi1sh * (d[i] - lambda0);
 
+            System.out.println("ckr1:" + c1_kr + "ckr2:" + c2_kr);
             double c3 = c1_kr + c2_kr + 1;
 
             double a = c3;
             System.out.println("try get " + i + " and length d is " + d.length);
             double b = (-c3) * d[i] - c3 * d[i + 1] - c1 - c2;
             double c = c3 * d[i] * d[i + 1] + c1 * d[i + 1] + c2 * d[i];
-
+            System.out.println("a:" + a + "b:" + b + "c:" + c);
 
             double D = b * b - 4 * a * c;
             if (D < 0) {
@@ -97,12 +101,12 @@ public class CenturyEquation {
             double x1 = (-b + Math.sqrt(D)) / (2 * a);
             double x2 = (-b - Math.sqrt(D)) / (2 * a);
             double result = 0;
-            if (x1 > d[i + 1] && x1 < d[i]) {
+            if (x1 <= d[i + 1] && x1 >= d[i]) {
                 result = x1;
-            } else if (x2 > d[i + 1] && x2 < d[i]) {
+            } else if (x2 <= d[i + 1] && x2 >= d[i]) {
                 result = x2;
             } else {
-                System.out.println("unexpeced solution of h(x) = 0;");
+                System.out.println("unexpeced solution of h(x) = 0; with x1:" + x1 + "and x2:" + x2 + "with di+1:" + d[i + 1] + "and di:" + d[i] );
             }
             lambda0 = result;
         }

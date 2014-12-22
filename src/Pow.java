@@ -14,23 +14,40 @@ public class Pow {
     public PairMatrix dc_eig(Matrix T, double eps, int k) {
         PairMatrix QL = new PairMatrix(Matrix.identity(1), Matrix.identity(1));
         if (T.M == 1) {
+            System.out.println("in else!!!!!! with T:");
+            T.show();
+            System.out.println("end in else!!!!!! with T:");
+            QL.a = Matrix.identity(1);
             QL.b = T;
         } else {
             int div = T.M / 2;
             System.out.println("will be div:" + div);
             Matrix T1 = T.getBlock(0, div, 0, div);
             Matrix T2 = T.getBlock(div, T.M, div, T.M);
+
             double bm = T.GetElement(div - 1, div);
             T1.setElement(T1.M - 1, T1.M - 1, T1.GetElement(T1.M - 1, T1.M - 1) - bm);
             T2.setElement(0, 0, T2.GetElement(0, 0) - bm);
             System.out.println(bm);
 
+
+            System.out.println("---------\nT:");
+            T.show();
+            System.out.println("T1:");
+            T1.show();
+            System.out.println("T2:");
+            T2.show();
+            System.out.println("--------");
+
             Pow pow1 = new Pow(T1); //first call
             PairMatrix res1 = pow1.p;
+            System.out.println("L1:");
+            res1.b.show();
 
             Pow pow2 = new Pow(T2); //second call
             PairMatrix res2 = pow2.p;
-
+            System.out.println("L2:");
+            res2.b.show();
             //buildD
             Matrix D = new Matrix(res1.b.M + res2.b.M, res1.b.M + res2.b.M);
 
@@ -142,7 +159,7 @@ public class Pow {
                         System.out.println("special case");
                     }
                 }
-
+                D.show();
                 eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
                 for(int y = 0; y < res1.b.M + res2.b.M; y++) {
                     ismQ1[y][z] = eigenvector.GetElement(y, 0);
@@ -158,7 +175,7 @@ public class Pow {
             Matrix Q111 = new Matrix(ismQ1);
 
             //
-            int mm = Q1t.M + Q2t.M, nn = Q1t.N + Q2t.N;
+
             Matrix Qfinal = new Matrix(Q1t.M + Q2t.M, Q1t.N + Q2t.N);
             for (int z = 0; z < Q1t.M; z++) {
                 for (int zz = 0; zz < Q1t.N; zz++)
@@ -170,7 +187,7 @@ public class Pow {
             }
 
 
-            QL.a = Qfinal;//Q111;
+            QL.a = Qfinal.times(Q111);//Q111;
             QL.b = LLL;
         }
         return QL;
