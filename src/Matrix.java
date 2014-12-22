@@ -35,7 +35,19 @@ final public class Matrix {
     // copy constructor
     public Matrix(Matrix A) { this(A.data); }
 
+    static public Matrix rowToColumn(Double []a) {
+        Matrix m = new Matrix(a.length, 1);
+        for (int i = 0; i < a.length; i++)
+            m.setElement(i, 0, a[i]);
+        return m;
+    }
 
+    static public Matrix rowToDiag(Double []a) {
+        Matrix m = new Matrix(a.length, a.length);
+        for (int i = 0; i < a.length; i++)
+            m.setElement(i, i, a[i]);
+        return m;
+    }
 
     //changed
     public double GetElement(int i, int j) {
