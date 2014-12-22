@@ -71,7 +71,7 @@ public class CenturyEquation {
         double di = d[i], diplus1 = d[i+1];
         double lambda0 = (di + diplus1)/2;
 
-        for (int iter = 0; iter < k; i++) {
+        for (int iter = 0; iter < k; iter++) {
             double psi1sh = psi_1_sh(lambda0, i);
             double c1 = psi1sh * (d[i] - lambda0);
             double c1_kr = psi_1(lambda0, i) - psi1sh * (d[i] - lambda0);
@@ -84,6 +84,7 @@ public class CenturyEquation {
             double c3 = c1_kr + c2_kr + 1;
 
             double a = c3;
+            System.out.println("try get " + i + " and length d is " + d.length);
             double b = (-c3) * d[i] - c3 * d[i + 1] - c1 - c2;
             double c = c3 * d[i] * d[i + 1] + c1 * d[i + 1] + c2 * d[i];
 
@@ -149,7 +150,9 @@ public class CenturyEquation {
     //finds all eigenvalues for century_equation initialized
     public Double [] count() {
         LinkedList<Double> solutions = new LinkedList<Double>();
-        for (int i = 0; i < u.length; i++) {
+
+        for (int i = 0; i < u.length-1; i++) {
+            System.out.println("try get from u index " + i + " and length u is " + u.length);
             if (u[i] != 0) {
                 solutions.add(interval(i));
             } else {

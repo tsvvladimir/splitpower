@@ -7,5 +7,6 @@ public class Main {
         res.a.show();
         System.out.println("second:\n");
         res.b.show();
+        System.out.println("пока");
     }
 }
