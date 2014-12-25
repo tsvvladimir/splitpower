@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -90,17 +91,76 @@ public class Pow {
 
 
             //унулить маленькие числа
+            // permutate
+            Matrix newu = new Matrix(u.data);
+            Matrix newD = new Matrix(D.data);
+
+            Double[] midarr = new Double[newD.M];
+            for (int i = 0; i < newD.M; i++) {
+                midarr[i] = newD.GetElement(i, i);
+            }
+            Sorter s1 = new Sorter(midarr);
+            s1.perfsort();
+            int[] perm1 = s1.perm;
+            for(int i = 0; i < perm1.length; i++) {
+                Double temp = newD.GetElement(i, i);
+                newD.setElement(i, i, newD.GetElement(perm1[i], perm1[i]));
+                newD.setElement(perm1[i], perm1[i], temp);
+            }
+
+            for(int i = 0; i < perm1.length; i++) {
+                Double temp = newu.GetElement(i, 0);
+                newu.setElement(i, 0, newu.GetElement(perm1[i], 0));
+                newu.setElement(perm1[i], 0, temp);
+            }
+
+            Matrix tempu = u;
+            Matrix tempD = D;
+
+            u = newu;
+            D = newD;
+
+
+
+            ArrayList<Double> dijarr = new ArrayList<Double>();
+            HashMap<Double, ArrayList<Integer>> helpmap = new HashMap<Double, ArrayList<Integer>>();
+            for(int i = 0; i < D.M; i++) {
+                if (!dijarr.contains(D.GetElement(i, i))) {
+                    dijarr.add(D.GetElement(i, i));
+                    ArrayList<Integer> qq = new ArrayList<Integer>();
+                    qq.add(i);
+                    helpmap.put(D.GetElement(i, i), qq);
+                } else {
+                    ArrayList<Integer> qq = helpmap.get(D.GetElement(i, i));
+                    qq.add(i);
+                    helpmap.put(D.GetElement(i, i), qq);
+                }
+            }
+
+            Matrix Dij = new Matrix(dijarr.size(), dijarr.size());
+            for(int i = 0; i < dijarr.size(); i++) {
+                Dij.setElement(i, i, dijarr.get(i));
+            }
+
+            Matrix kj = new Matrix(dijarr.size(), 1);
+            for(int i = 0; i < dijarr.size(); i++) {
+                for(int j : helpmap.get(dijarr.get(i))) {
+                    kj.setElement(i, 0, kj.GetElement(i, 0) + u.GetElement(i, 0) * u.GetElement(i, 0));
+                }
+            }
 
             //to vekovoe - u matrix and D diagonal
 
-            CenturyEquation cq = new CenturyEquation(k, bm, u, D);
+            CenturyEquation cq = new CenturyEquation(k, bm, kj, Dij);
             //have arr []roots
             Double[] roots = cq.count(); //null;
+            System.out.println("!!!!!!!!!!ROOTS:");
             for(int i = 0 ; i < roots.length; i++)
                 System.out.print(", " + roots[i]);
             System.out.println();
             //levner
             //will recieve new w
+
             HashMap<Double, Integer> getkdij = new HashMap<Double, Integer>();
             for(int i = 0; i < res1.b.M + res2.b.M; i++) {
                 if (!getkdij.containsKey(D.GetElement(i, i))) {
@@ -132,17 +192,29 @@ public class Pow {
                     if (getkdij.get(D.GetElement(i, i)) == 1) {
                         System.out.println("ok;");
                         double nom = 1.0;
-                        for(int j = 0; j < res1.b.M + res2.b.M; j++) {
+                        for (int j = 0; j < res1.b.M + res2.b.M; j++) {
                             System.out.println(roots.length);
                             nom *= roots[i] - D.GetElement(i, i);
                         }
                         double denom = 1.0;
-                        for(int j = 0; (j < res1.b.M + res2.b.M) ; j++) {
+                        for (int j = 0; (j < res1.b.M + res2.b.M); j++) {
                             if (j != i) {
                                 denom *= (D.GetElement(j, j) - D.GetElement(i, i));
                             }
                         }
-                        w[i] = Math.sqrt(nom/denom);
+                        w[i] = Math.sqrt(nom / denom);
+                    } else if (getlj.get(roots[i]) == 0 && getkdij.get(roots[i]) == 1) {
+                        double nom = 1.0;
+                        double denom = 1.0;
+                        for (int j = 0; j < res1.b.M + res2.b.M; j++) {
+                            nom *= roots[j] - D.GetElement(i, i);
+                        }
+                        for (int j = 0; j < res1.b.M + res2.b.M; j++) {
+                            if (roots[j] != D.GetElement(i, i)) {
+                                nom *= roots[j] - D.GetElement(i, i);
+                            }
+                        }
+                        w[i] = Math.sqrt(nom / denom);
                     } else if (getlj.get(roots[i]) > (getkdij.get(roots[i]) - 1)) {
                         w[i] = 0.0;
                     } else if (getlj.get(roots[i]) == (getkdij.get(roots[i]) - 1)) {
@@ -188,6 +260,13 @@ public class Pow {
                 for (int zz = 0; zz < Q2t.N; zz++)
                     Qfinal.setElement(z + Q1t.M, zz+ Q1t.N, Q2t.GetElement(z, zz));
             }
+
+            Qfinal = Qfinal.transpose();
+
+            for(int i = 0; i < perm1.length; i++) {
+                Qfinal.swapColumns(i, perm1[i]);
+            }
+
 
 
             QL.a = Qfinal.times(Q111);//Q111;

@@ -13,5 +13,10 @@ public class Main {
         System.out.println("second:\n");
         res.b.show();
         System.out.println("пока");
+
+       // Sorter s = new Sorter(new double[] {5,4,2,6,1});
+       // s.perfsort();
+       // for(int i = 0; i < s.perm.length; i++)
+       //     System.out.println(s.mas[i] + ", ");
     }
 }
