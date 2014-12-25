@@ -35,20 +35,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Pow.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Pow.java">
+      <file leaf-file-name="Sorter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Sorter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1365" max-vertical-offset="3030">
-              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.54404145" vertical-offset="0" max-vertical-offset="600">
+              <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CenturyEquation.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Pow.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Pow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3030">
+              <caret line="115" column="16" selection-start-line="115" selection-start-column="16" selection-end-line="115" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CenturyEquation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CenturyEquation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="10.181059" vertical-offset="0" max-vertical-offset="3757">
+            <state vertical-scroll-proportion="-98.85185" vertical-offset="986" max-vertical-offset="3757">
               <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -94,6 +104,7 @@
         <option value="$PROJECT_DIR$/src/Pow.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/CenturyEquation.java" />
+        <option value="$PROJECT_DIR$/src/Sorter.java" />
       </list>
     </option>
   </component>
@@ -608,11 +619,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Pow.java">
+    <entry file="file://$PROJECT_DIR$/src/CenturyEquation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1650" max-vertical-offset="3030">
-          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-98.85185" vertical-offset="986" max-vertical-offset="3757">
+          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -624,13 +637,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CenturyEquation.java">
+    <entry file="file://$PROJECT_DIR$/src/Pow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="10.181059" vertical-offset="0" max-vertical-offset="3757">
-          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="3030">
+          <caret line="115" column="16" selection-start-line="115" selection-start-column="16" selection-end-line="115" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sorter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54404145" vertical-offset="0" max-vertical-offset="600">
+          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
