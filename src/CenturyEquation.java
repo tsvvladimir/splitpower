@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -8,6 +9,16 @@ public class CenturyEquation {
     double ro;//, lambda;
     double []u, d;
 
+    int []cases;
+
+    public double [] reverse(double []a) {
+        for (int k = 0; k < a.length/2; k++) {
+            double temp = a[k];
+            a[k] = a[a.length-(1+k)];
+            a[a.length-(1+k)] = temp;
+        }
+        return a;
+    }
 
     public CenturyEquation(int k, double ro, double []u, double []d) { //, double lambda){
         this.k = k;
@@ -15,6 +26,10 @@ public class CenturyEquation {
         //this.lambda = lambda;
         this.u = u;
         this.d = d;
+        cases = new int[this.d.length];
+        Arrays.sort(this.d);
+        this.d = reverse(this.d);
+
     }
 
     public CenturyEquation(int k, double ro, Matrix u, Matrix d) {
@@ -24,9 +39,18 @@ public class CenturyEquation {
         System.out.println("d - must be diagonal: ");
         d.show();
 
+
         this.d = new double[d.N];
         for (int i = 0; i < d.N; i++)
             this.d[i] = d.GetElement(i, i);
+        Arrays.sort(this.d);
+        this.d = reverse(this.d);
+        cases = new int[this.d.length];
+
+        for (int i = 0; i < this.d.length; i++)
+            System.out.print(this.d[i]);
+        System.out.println();
+
 
         System.out.println("u - must be a column");
         u.show();
@@ -40,49 +64,56 @@ public class CenturyEquation {
     //------------for---interval---(d[i+1],d[i])-----------------------
     private double psi_1_sh(double lambda_j, int i) {
         double psi1sh = 0;
-        for (int j = 0; j < i; j++)
+        for (int j = 0; j <= i; j++)
             psi1sh += ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
+        System.out.println("psi1sh:" + psi1sh);
         return psi1sh;
     }
 
     private double psi_1(double lambda_j, int i) {
         double psi1 = 0;
-        for (int j = 0; j < i; j++)
+        for (int j = 0; j <= i; j++)
             psi1 += ro*u[j]*u[j]/(d[j] - lambda_j);
+        System.out.println("psi1:" + psi1);
         return psi1;
     }
 
 
     private double psi_2_sh(double lambda_j, int i) {
         double psi1sh = 0;
-        for (int j = i; j < u.length; j++)
+        for (int j = i + 1; j < u.length; j++)
+        {
             psi1sh += ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
+            System.out.println("in psi2sh dj: " + d[j] + "lambdaj: " + lambda_j);
+        }
+
+        System.out.println("psi2sh:" + psi1sh);
         return psi1sh;
     }
 
     private double psi_2(double lambda_j, int i) {
         double psi1 = 0;
-        for (int j = i; j < u.length; j++)
+        for (int j = i + 1; j < u.length; j++)
             psi1 += ro*u[j]*u[j]/(d[j] - lambda_j);
         //System.out.println()
+        System.out.println("psi2:" + psi1);
         return psi1;
 
     }
-
     private double interval(int i) {
         double di = d[i], diplus1 = d[i+1];
         double lambda0 = (di + diplus1)/2;
 
         for (int iter = 0; iter < k; iter++) {
             double psi1sh = psi_1_sh(lambda0, i);
-            double c1 = psi1sh * (d[i] - lambda0);
+            double c1 = psi1sh * (d[i] - lambda0)*(d[i] - lambda0);
             double c1_kr = psi_1(lambda0, i) - psi1sh * (d[i] - lambda0);
 
 
             double psi2sh = psi_2_sh(lambda0, i);
-            double c2 = psi2sh * (d[i] - lambda0);
-            System.out.println(psi_2(lambda0, i) + "and" + psi1sh * (d[i] - lambda0));
-            double c2_kr = psi_2(lambda0, i) - psi1sh * (d[i] - lambda0);
+            double c2 = psi2sh * (d[i + 1] - lambda0)* (d[i + 1] - lambda0);
+            System.out.println(psi_2(lambda0, i) + "and" + psi1sh * (d[i + 1] - lambda0));
+            double c2_kr = psi_2(lambda0, i) - psi2sh * (d[i + 1] - lambda0);
 
             System.out.println("ckr1:" + c1_kr + "ckr2:" + c2_kr);
             double c3 = c1_kr + c2_kr + 1;
@@ -101,12 +132,12 @@ public class CenturyEquation {
             double x1 = (-b + Math.sqrt(D)) / (2 * a);
             double x2 = (-b - Math.sqrt(D)) / (2 * a);
             double result = 0;
-            if (x1 <= d[i + 1] && x1 >= d[i]) {
+            if (x1 >= d[i + 1] && x1 <= d[i]) {
                 result = x1;
-            } else if (x2 <= d[i + 1] && x2 >= d[i]) {
+            } else if (x2 >= d[i + 1] && x2 <= d[i]) {
                 result = x2;
             } else {
-                System.out.println("unexpeced solution of h(x) = 0; with x1:" + x1 + "and x2:" + x2 + "with di+1:" + d[i + 1] + "and di:" + d[i] );
+                System.out.println("unexpected solution of h(x) = 0; with x1:" + x1 + "and x2:" + x2 + "with di+1:" + d[i + 1] + "and di:" + d[i] );
             }
             lambda0 = result;
         }
@@ -157,10 +188,15 @@ public class CenturyEquation {
 
         for (int i = 0; i < u.length-1; i++) {
             System.out.println("try get from u index " + i + " and length u is " + u.length);
-            if (u[i] != 0) {
-                solutions.add(interval(i));
-            } else {
+            if (u[i] == 0) {
                 solutions.add(d[i]);
+                cases[i] = 1;
+            } else if (d[i] == d[i+1]) {
+                solutions.add(d[i]);
+                cases[i] = 2;
+            } else if (u[i] != 0) {
+                solutions.add(interval(i));
+                cases[i] = 0;
             }
         }
 

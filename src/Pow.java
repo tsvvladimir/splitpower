@@ -14,12 +14,15 @@ public class Pow {
     public PairMatrix dc_eig(Matrix T, double eps, int k) {
         PairMatrix QL = new PairMatrix(Matrix.identity(1), Matrix.identity(1));
         if (T.M == 1) {
-            System.out.println("in else!!!!!! with T:");
+            System.out.println("not in else!!!!!! with T:");
             T.show();
-            System.out.println("end in else!!!!!! with T:");
+            System.out.println("end not in else!!!!!! with T:");
             QL.a = Matrix.identity(1);
             QL.b = T;
         } else {
+            System.out.println("in else!!!!!! with T:");
+            T.show();
+            System.out.println("end in else!!!!!! with T:");
             int div = T.M / 2;
             System.out.println("will be div:" + div);
             Matrix T1 = T.getBlock(0, div, 0, div);
