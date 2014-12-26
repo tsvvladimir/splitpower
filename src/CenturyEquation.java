@@ -65,7 +65,8 @@ public class CenturyEquation {
     private double psi_1_sh(double lambda_j, int i) {
         double psi1sh = 0;
         for (int j = 0; j <= i; j++)
-            psi1sh += ro*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));//ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
+            //psi1sh += ro*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));//
+            psi1sh += ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
         System.out.println("psi1sh:" + psi1sh);
         return psi1sh;
     }
@@ -73,7 +74,8 @@ public class CenturyEquation {
     private double psi_1(double lambda_j, int i) {
         double psi1 = 0;
         for (int j = 0; j <= i; j++)
-            psi1 += ro*u[j]/(d[j] - lambda_j);//ro*u[j]*u[j]/(d[j] - lambda_j);
+            //psi1 += ro*u[j]/(d[j] - lambda_j);
+            psi1 += ro*u[j]*u[j]/(d[j] - lambda_j);
         System.out.println("psi1:" + psi1);
         return psi1;
     }
@@ -83,7 +85,8 @@ public class CenturyEquation {
         double psi1sh = 0;
         for (int j = i + 1; j < u.length; j++)
         {
-            psi1sh += ro*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));//ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
+            //psi1sh += ro*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));//
+            psi1sh += ro*u[j]*u[j]/((d[j] - lambda_j)*(d[j] - lambda_j));
             System.out.println("in psi2sh dj: " + d[j] + "lambdaj: " + lambda_j);
         }
 
@@ -94,7 +97,8 @@ public class CenturyEquation {
     private double psi_2(double lambda_j, int i) {
         double psi1 = 0;
         for (int j = i + 1; j < u.length; j++)
-            psi1 += ro*u[j]/(d[j] - lambda_j);//ro*u[j]*u[j]/(d[j] - lambda_j);
+            //psi1 += ro*u[j]/(d[j] - lambda_j);//
+            psi1 += ro*u[j]*u[j]/(d[j] - lambda_j);
         //System.out.println()
         System.out.println("psi2:" + psi1);
         return psi1;

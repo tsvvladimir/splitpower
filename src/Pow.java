@@ -151,7 +151,8 @@ public class Pow {
 
             //to vekovoe - u matrix and D diagonal
 
-            CenturyEquation cq = new CenturyEquation(k, bm, kj, Dij);
+            //CenturyEquation cq = new CenturyEquation(k, bm, kj, Dij);
+            CenturyEquation cq = new CenturyEquation(k, bm, u, D);
             //have arr []roots
             Double[] roots = cq.count(); //null;
             System.out.println("!!!!!!!!!!ROOTS:");
@@ -184,6 +185,7 @@ public class Pow {
             //Matrix eigenvector = Matrix.Hilbert(1, 1);
             //eigenvector = null;
             //double[][] ismQ1 = new double[res1.b.M + res2.b.M][res1.b.M + res2.b.M];
+            ArrayList<Matrix> eigenvectors = new ArrayList<Matrix>();
             for (int z = 0; z < roots.length; z++) {
                 Double[] w = new Double[roots.length];
                 for(int i = 0; i < roots.length; i++) {
@@ -241,7 +243,7 @@ public class Pow {
                 }
                 System.out.println("end w");
                 //creating of eigenvectors matrix
-                ArrayList<Matrix> eigenvectors = new ArrayList<Matrix>();
+
                 if (!dijarr.contains(roots[z])) {
                     Matrix eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
                     eigenvectors.add(eigenvector);
@@ -297,8 +299,10 @@ public class Pow {
 
             Double[][] ismQ1 = new Double[roots.length][roots.length];
 
-            for(Matrix eigenvector : ) {
-
+            for(int i = 0; i < roots.length; i++) {
+                for (int j = 0; j < eigenvectors.get(i).N; j++) {
+                    ismQ1[i][j] = eigenvectors.get(i).GetElement(j, 0);
+                }
             }
 
 

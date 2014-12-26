@@ -32,6 +32,15 @@ final public class Matrix {
                 this.data[i][j] = data[i][j];
     }
 
+    public Matrix(Double[][] data) {
+        M = data.length;
+        N = data[0].length;
+        this.data = new double[M][N];
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                this.data[i][j] = data[i][j];
+    }
+
     // copy constructor
     public Matrix(Matrix A) { this(A.data); }
 
