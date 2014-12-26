@@ -42,6 +42,8 @@ final public class Matrix {
         return m;
     }
 
+
+
     static public Matrix rowToDiag(Double []a) {
         Matrix m = new Matrix(a.length, a.length);
         for (int i = 0; i < a.length; i++)

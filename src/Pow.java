@@ -181,12 +181,12 @@ public class Pow {
                 }
                 getlj.put(key, lol);
             }
-            Matrix eigenvector = Matrix.Hilbert(1, 1);
+            //Matrix eigenvector = Matrix.Hilbert(1, 1);
             //eigenvector = null;
-            double[][] ismQ1 = new double[res1.b.M + res2.b.M][res1.b.M + res2.b.M];
-            for (int z = 0; z < res1.b.M + res2.b.M; z++) {
-                Double[] w = new Double[res1.b.M + res2.b.M];
-                for(int i = 0; i < res1.b.M + res2.b.M; i++) {
+            //double[][] ismQ1 = new double[res1.b.M + res2.b.M][res1.b.M + res2.b.M];
+            for (int z = 0; z < roots.length; z++) {
+                Double[] w = new Double[roots.length];
+                for(int i = 0; i < roots.length; i++) {
                     System.out.println("@@@ " + D.GetElement(i, i) + ", " + getkdij.keySet() + "###");
                     System.out.println("@@" + getkdij.get(D.GetElement(i, i)) + "##");
                     if (getkdij.get(D.GetElement(i, i)) == 1) {
@@ -235,10 +235,57 @@ public class Pow {
                     }
                 }
                 D.show();
-                eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
-                for(int y = 0; y < res1.b.M + res2.b.M; y++) {
-                    ismQ1[y][z] = eigenvector.GetElement(y, 0);
+                System.out.println("w:");
+                for(int i = 0; i < w.length; i++) {
+                    System.out.print(w[i] + ", ");
                 }
+                System.out.println("end w");
+                //creating of eigenvectors matrix
+                ArrayList<Matrix> eigenvectors = new ArrayList<Matrix>();
+                if (!dijarr.contains(roots[z])) {
+                    Matrix eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                    eigenvectors.add(eigenvector);
+                } else {
+                    if (getlj.get(roots[z]) == (getkdij.get(roots[z]) - 1)) {
+                        ArrayList<Integer> st = helpmap.get(roots[z]);
+                        for (Integer s : st) {
+                            for (Integer t : st) {
+                                if (s != t) {
+                                    Matrix eigenvector1 = Matrix.identity(roots.length).getBlock(0, roots.length, t, t + 1).muldig(w[s]);
+                                    Matrix eigenvector2 = Matrix.identity(roots.length).getBlock(0, roots.length, s, s + 1).muldig(w[t]);
+                                    Matrix eigenvector = eigenvector1.minus(eigenvector2);
+                                    eigenvectors.add(eigenvector);
+                                }
+                            }
+                        }
+                    } else if (getlj.get(roots[z]) == (getkdij.get(roots[z]))) {
+                        ArrayList<Integer> idx = helpmap.get(roots[z]);
+                        for (Integer id : idx) {
+                            Matrix eigenvector = Matrix.identity(roots.length).getBlock(0, roots.length, id, id + 1);
+                            eigenvectors.add(eigenvector);
+                        }
+                    } else if (getlj.get(roots[z]) == (getkdij.get(roots[z]) + 1)) {
+                        ArrayList<Integer> idx = helpmap.get(roots[z]);
+                        for (Integer id : idx) {
+                            Matrix eigenvector = Matrix.identity(roots.length).getBlock(0, roots.length, id, id + 1);
+                            eigenvectors.add(eigenvector);
+                        }
+                        Double[] zz = new Double[roots.length];
+                        for (Integer f = 0; f < zz.length; f++) {
+                            if (tempD.GetElement(f, f) == dijarr.get(f)) {
+                                zz[f] = 0.0;
+                            } else {
+                                zz[f] = (1/(tempD.GetElement(f, f) - dijarr.get(f))) * w[f];
+                            }
+                        }
+                        Matrix eigenvector = Matrix.rowToColumn(zz);
+                        eigenvectors.add(eigenvector);
+                    }
+                }
+                //eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                //for(int y = 0; y < res1.b.M + res2.b.M; y++) {
+                //    ismQ1[y][z] = eigenvector.GetElement(y, 0);
+                //}
 
 
             }
@@ -246,6 +293,14 @@ public class Pow {
             //set blocks
 
             Matrix LLL = Matrix.rowToDiag(roots);
+
+
+            Double[][] ismQ1 = new Double[roots.length][roots.length];
+
+            for(Matrix eigenvector : ) {
+
+            }
+
 
             Matrix Q111 = new Matrix(ismQ1);
 
