@@ -191,21 +191,7 @@ public class Pow {
                 for(int i = 0; i < roots.length; i++) {
                     System.out.println("@@@ " + D.GetElement(i, i) + ", " + getkdij.keySet() + "###");
                     System.out.println("@@" + getkdij.get(D.GetElement(i, i)) + "##");
-                    if (getkdij.get(D.GetElement(i, i)) == 1) {
-                        System.out.println("ok;");
-                        double nom = 1.0;
-                        for (int j = 0; j < res1.b.M + res2.b.M; j++) {
-                            System.out.println(roots.length);
-                            nom *= roots[i] - D.GetElement(i, i);
-                        }
-                        double denom = 1.0;
-                        for (int j = 0; (j < res1.b.M + res2.b.M); j++) {
-                            if (j != i) {
-                                denom *= (D.GetElement(j, j) - D.GetElement(i, i));
-                            }
-                        }
-                        w[i] = Math.sqrt(nom / denom);
-                    } else if (getlj.get(roots[i]) == 0 && getkdij.get(roots[i]) == 1) {
+                     if (getlj.get(roots[i]) == 0 && getkdij.get(roots[i]) == 1) {
                         double nom = 1.0;
                         double denom = 1.0;
                         for (int j = 0; j < res1.b.M + res2.b.M; j++) {
@@ -217,22 +203,38 @@ public class Pow {
                             }
                         }
                         w[i] = Math.sqrt(nom / denom);
+                    } else if (getlj.get(roots[i]) == (getkdij.get(roots[i]) - 1)) {
+                         double nom = 1.0;
+                         double denom = 1.0;
+                         for(int j = 0; (j < res1.b.M + res2.b.M); j++) {
+                             if (roots[j] != D.GetElement(j, j)) {
+                                 nom *= roots[j] - D.GetElement(j, j);
+                             }
+                         }
+                         for(int j = 0; (j < res1.b.M + res2.b.M); j++) {
+                             if (D.GetElement(j, j) != D.GetElement(i, i)) {
+                                 denom *= getkdij.get(D.GetElement(j, j)) * (D.GetElement(j, j) - D.GetElement(i, i));
+                             }
+                         }
+                         w[i] = Math.sqrt(nom / denom);
+                     } else if (getkdij.get(D.GetElement(i, i)) == 1) {
+                        /*System.out.println("ok;");
+                        double nom = 1.0;
+                        for (int j = 0; j < res1.b.M + res2.b.M; j++) {
+                            System.out.println(roots.length);
+                            nom *= roots[i] - D.GetElement(i, i);
+                        }
+                        double denom = 1.0;
+                        for (int j = 0; (j < res1.b.M + res2.b.M); j++) {
+                            if (j != i) {
+                                denom *= (D.GetElement(j, j) - D.GetElement(i, i));
+                            }
+                        }
+                        w[i] = Math.sqrt(nom / denom);*/
+                         w[i] = 0.0;
                     } else if (getlj.get(roots[i]) > (getkdij.get(roots[i]) - 1)) {
                         w[i] = 0.0;
-                    } else if (getlj.get(roots[i]) == (getkdij.get(roots[i]) - 1)) {
-                        double nom = 1.0;
-                        double denom = 1.0;
-                        for(int j = 0; (j < res1.b.M + res2.b.M); j++) {
-                            if (roots[j] != D.GetElement(j, j)) {
-                                nom *= roots[j] - D.GetElement(j, j);
-                            }
-                        }
-                        for(int j = 0; (j < res1.b.M + res2.b.M); j++) {
-                            if (D.GetElement(j, j) != D.GetElement(i, i)) {
-                                denom *= getkdij.get(D.GetElement(j, j)) * (D.GetElement(j, j) - D.GetElement(i, i));
-                            }
-                        }
-                    } else {
+                    }  else {
                         System.out.println("special case");
                     }
                 }
@@ -298,6 +300,14 @@ public class Pow {
 
 
             Double[][] ismQ1 = new Double[roots.length][roots.length];
+            System.out.println("---ismQ1----");
+            for (int i = 0; i < ismQ1.length; i++) {
+                for (int j = 0; j < ismQ1[i].length; j++) {
+                    ismQ1[i][j] = 0.0;
+                    System.out.print(" " + ismQ1[i][j]);
+                }
+                System.out.println();
+            }
 
             for(int i = 0; i < roots.length; i++) {
                 for (int j = 0; j < eigenvectors.get(i).N; j++) {
