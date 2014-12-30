@@ -32,6 +32,15 @@ final public class Matrix {
                 this.data[i][j] = data[i][j];
     }
 
+    public Matrix(Double[][] data) {
+        M = data.length;
+        N = data[0].length;
+        this.data = new double[M][N];
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                this.data[i][j] = data[i][j];
+    }
+
     // copy constructor
     public Matrix(Matrix A) { this(A.data); }
 
@@ -41,6 +50,8 @@ final public class Matrix {
             m.setElement(i, 0, a[i]);
         return m;
     }
+
+
 
     static public Matrix rowToDiag(Double []a) {
         Matrix m = new Matrix(a.length, a.length);
@@ -420,6 +431,18 @@ final public class Matrix {
         }
     }
 
+    // print matrix to standard output
+    public void show2() {
+        System.out.print("{");
+        for (int i = 0; i < M; i++) {
+            System.out.print("{");
+            for (int j = 0; j < N; j++)
+                System.out.printf("%4.4f;", data[i][j]);//f("%f ", data[i][j]);//("%9.10f ", data[i][j]);
+            //System.out.printf("%9.10f ", data[i][j]);
+            System.out.print("},");
+        }
+        System.out.println("}");
+    }
 
 
     // test client
