@@ -205,7 +205,7 @@ public class CenturyEquation {
                 if (addsolflag) {
                     System.out.println("add solution with case 2 and root:" + root);
                 }
-                solutions.add(d[i]);
+                solutions.add(root);
                 cases[i] = 2;
             } else {
                 Double root = interval(i);
@@ -219,9 +219,17 @@ public class CenturyEquation {
 
         if (ro == 0) System.out.println("!!! ERROR - smth goes wrong: ro = 0;");
         if (ro < 0) {
-            solutions.addLast(tail(u.length-1, d[u.length-1] +1));
+            Double root = tail(u.length-1, d[u.length-1] +1);
+            if (addsolflag) {
+                System.out.println("add solution with case ro < 0 and root:" + root);
+            }
+            solutions.addLast(root);
         } else {
-            solutions.addFirst(tail(0, d[0]-1));
+            Double root = tail(0, d[0]-1);
+            if (addsolflag) {
+                System.out.println("add solution with case ro > 0 and root:" + root);
+            }
+            solutions.addFirst(root);
         }
 
         Double []result = new Double[solutions.size()];
