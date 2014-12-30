@@ -421,6 +421,7 @@ public class Pow {
                 for (int zz = 0; zz < Q2t.N; zz++)
                     Q.setElement(z + Q1t.M, zz + Q1t.N, Q2t.GetElement(z, zz));
             }
+            //Q = Q.transpose();
 
             //Qfinal = Qfinal.transpose();
 
@@ -441,7 +442,7 @@ public class Pow {
                     swapedQfinal.setElement(j, i, Q.GetElement(j, perm1[i]));
             }
             Q = swapedQfinal;
-
+            //Q = Q.transpose();
 
 
             Matrix Qfinal = Q.times(Q111);
