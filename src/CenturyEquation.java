@@ -190,16 +190,29 @@ public class CenturyEquation {
     public Double [] count() {
         LinkedList<Double> solutions = new LinkedList<Double>();
         //this.k = 10;//1000;
+        boolean addsolflag = true;
         for (int i = 0; i < u.length-1; i++) {
             //System.out.println("try get from u index " + i + " and length u is " + u.length);
             if (u[i] == 0) {
-                solutions.add(d[i]);
+                Double root = d[i];
+                if (addsolflag) {
+                    System.out.println("add solution with case 1 and root:" + root);
+                }
+                solutions.add(root);
                 cases[i] = 1;
             } else if (d[i] == d[i+1]) {
+                Double root = d[i];
+                if (addsolflag) {
+                    System.out.println("add solution with case 2 and root:" + root);
+                }
                 solutions.add(d[i]);
                 cases[i] = 2;
             } else {
-                solutions.add(interval(i));
+                Double root = interval(i);
+                if (addsolflag) {
+                    System.out.println("add solution with case 0 and root:" + root);
+                }
+                solutions.add(root);
                 cases[i] = 0;
             }
         }
