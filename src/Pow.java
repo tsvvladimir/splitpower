@@ -240,7 +240,7 @@ public class Pow {
                         }
                     }
 
-                    if (false) {
+                    if (true) {
                         System.out.println("\td_ij = " + d_ij);
                         System.out.println("\tcheck nom: " + nom);
                         System.out.println("\tcheck denom: " + denom);
@@ -263,6 +263,12 @@ public class Pow {
                             denom *= (D.GetElement(j, j) - d_ij);
                         }
                     }
+                    if (true) {
+                        System.out.println("\td_ij = " + d_ij);
+                        System.out.println("\tcheck nom: " + nom);
+                        System.out.println("\tcheck denom: " + denom);
+                    }
+
                     w[i] = Math.sqrt(nom / denom);
                 } else if (k_d_ij == 1 && l_j >= k_d_ij) {
                     w[i] = 0.0;
@@ -279,7 +285,7 @@ public class Pow {
                 for (int i = 0; i < w.length; i++) {
                     System.out.print(w[i] + ", ");
                 }
-                System.out.println("end w");
+                System.out.println("\nend w");
             }
 
             //-----------------------------------------------------------------------------------
