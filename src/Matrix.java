@@ -431,6 +431,18 @@ final public class Matrix {
         }
     }
 
+    // print matrix to standard output
+    public void show2() {
+        System.out.print("{");
+        for (int i = 0; i < M; i++) {
+            System.out.print("{");
+            for (int j = 0; j < N; j++)
+                System.out.printf("%4.4f;", data[i][j]);//f("%f ", data[i][j]);//("%9.10f ", data[i][j]);
+            //System.out.printf("%9.10f ", data[i][j]);
+            System.out.print("},");
+        }
+        System.out.println("}");
+    }
 
 
     // test client
