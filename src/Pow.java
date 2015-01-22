@@ -40,6 +40,20 @@ public class Pow {
             T1.setElement(T1.M - 1, T1.M - 1, T1.GetElement(T1.M - 1, T1.M - 1) - bm);
             T2.setElement(0, 0, T2.GetElement(0, 0) - bm);
 
+            if (printFlag) {
+                System.out.println("before call will be div:" + div);
+
+                System.out.println("---------\nT:");
+                T.show();
+                System.out.println("T1:");
+                T1.show();
+                System.out.println("T2:");
+                T2.show();
+                System.out.println("bm: " + bm);
+                System.out.println("--------");
+                
+            }
+
             Pow pow1 = new Pow(T1);     //first call
             PairMatrix res1 = pow1.p;   //get Q1 and L1
 
