@@ -229,9 +229,9 @@ public class CenturyEquation {
             solutions.addLast(root);
         } else {
             if (true) {
-                System.out.println("start count tail for case ro > 0 for i = " + (u.length-1) + " and lambda0 = " + (d[u.length-1] +1));
+                System.out.println("start count tail for case ro > 0 for i = " + 0 + " and lambda0 = " + (d[0]-1));
             }
-            Double root = tail(u.length-1, d[u.length-1] +1);
+            Double root = tail(0, d[0]-1);
             if (addsolflag) {
                 System.out.println("add solution with case ro > 0 and root:" + root);
             }
