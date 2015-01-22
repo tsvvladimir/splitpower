@@ -366,6 +366,9 @@ public class Pow {
 
                 if (!dijarr.contains(roots[z])) {
                     Matrix eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                    if (printFlag) {
+                        System.out.println("add eigenvector with case 0");
+                    }
                     eigenvectors.add(eigenvector);
                 } else {
                     if (getlj.get(roots[z]) == (getkdij.get(roots[z]) - 1)) {
@@ -376,6 +379,9 @@ public class Pow {
                                     Matrix eigenvector1 = Matrix.identity(roots.length).getBlock(0, roots.length, t, t + 1).muldig(w[s]);
                                     Matrix eigenvector2 = Matrix.identity(roots.length).getBlock(0, roots.length, s, s + 1).muldig(w[t]);
                                     Matrix eigenvector = eigenvector1.minus(eigenvector2);
+                                    if (printFlag) {
+                                        System.out.println("add eigenvector with case 1");
+                                    }
                                     eigenvectors.add(eigenvector);
                                 }
                             }
@@ -384,12 +390,18 @@ public class Pow {
                         ArrayList<Integer> idx = helpmap.get(roots[z]);
                         for (Integer id : idx) {
                             Matrix eigenvector = Matrix.identity(roots.length).getBlock(0, roots.length, id, id + 1);
+                            if (printFlag) {
+                                System.out.println("add eigenvector with case 2");
+                            }
                             eigenvectors.add(eigenvector);
                         }
                     } else if (getlj.get(roots[z]) == (getkdij.get(roots[z]) + 1)) {
                         ArrayList<Integer> idx = helpmap.get(roots[z]);
                         for (Integer id : idx) {
                             Matrix eigenvector = Matrix.identity(roots.length).getBlock(0, roots.length, id, id + 1);
+                            if (printFlag) {
+                                System.out.println("add eigenvector with case 3");
+                            }
                             eigenvectors.add(eigenvector);
                         }
                         Double[] zz = new Double[roots.length];
@@ -401,6 +413,9 @@ public class Pow {
                             }
                         }
                         Matrix eigenvector = Matrix.rowToColumn(zz);
+                        if (printFlag) {
+                            System.out.println("add eigenvector with case 4");
+                        }
                         eigenvectors.add(eigenvector);
                     }
                 }
