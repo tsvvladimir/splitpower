@@ -412,6 +412,14 @@ public class Pow {
 
             }
 
+            if (printFlag) {
+                System.out.println("start found eigenvectors:");
+                for (Matrix vector : eigenvectors) {
+                    vector.show2();
+                }
+                System.out.println("end found eigenvectors:");
+            }
+
             //-------------------------- set blocks ------------------------------------------------
 
             Matrix LLL = Matrix.rowToDiag(roots);
