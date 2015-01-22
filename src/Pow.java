@@ -368,13 +368,13 @@ public class Pow {
                     Matrix eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
                     //eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(u);
                     if (printFlag) {
-                        System.out.println("add eigenvector with case 0");
+                        System.out.println("\nadd eigenvector with case 0");
                         eigenvector.show();
                     }
                     Matrix normedeigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
                     normedeigenvector = normedeigenvector.getNormed();
                     if (printFlag) {
-                        System.out.println("add normed eigenvector with case 0");
+                        System.out.println("\nadd normed eigenvector with case 0");
                         normedeigenvector.show();
                     }
                     eigenvectors.add(normedeigenvector);
@@ -437,7 +437,7 @@ public class Pow {
             }
 
             if (printFlag) {
-                System.out.println("start found eigenvectors:");
+                System.out.println("\nstart found eigenvectors:");
                 for (Matrix vector : eigenvectors) {
                     vector.show2();
                 }
