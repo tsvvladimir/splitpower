@@ -313,6 +313,19 @@ final public class Matrix {
         return a;
     }
 
+    public Matrix getNormed() {
+        Matrix a = new Matrix(this);
+        Double norm = 0.0;
+        for (int i = 0; i < M; i++) {
+            norm += a.GetElement(i, 0) * a.GetElement(i, 0);
+        }
+        norm = Math.sqrt(norm);
+        for (int i = 0; i < M; i++) {
+            a.setElement(i, 0, a.GetElement(i, 0) / norm);
+        }
+        return a;
+    }
+
     //changed
     // return x = A^-1 , assuming A is square and has full rank
     public Matrix degMin1() {

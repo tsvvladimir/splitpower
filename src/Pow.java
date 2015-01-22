@@ -366,10 +366,19 @@ public class Pow {
 
                 if (!dijarr.contains(roots[z])) {
                     Matrix eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                    //eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(u);
                     if (printFlag) {
                         System.out.println("add eigenvector with case 0");
+                        eigenvector.show();
                     }
-                    eigenvectors.add(eigenvector);
+                    Matrix normedeigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                    normedeigenvector = normedeigenvector.getNormed();
+                    if (printFlag) {
+                        System.out.println("add normed eigenvector with case 0");
+                        normedeigenvector.show();
+                    }
+                    eigenvectors.add(normedeigenvector);
+                    //eigenvectors.add(eigenvector);
                 } else {
                     if (getlj.get(roots[z]) == (getkdij.get(roots[z]) - 1)) {
                         ArrayList<Integer> st = helpmap.get(roots[z]);
