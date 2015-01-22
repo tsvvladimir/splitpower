@@ -245,11 +245,17 @@ public class Pow {
                     double denom = 1.0;
                     for (int j = 0; j < res1.b.M + res2.b.M; j++) {
                         //System.out.println("\troots[j] = " + roots[j]);
+                        if (printFlag) {
+                            System.out.println("nom *= " + roots[j] + " - " + d_ij);
+                        }
                         nom *= roots[j] - d_ij;
                     }
                     for (int j = 0; j < res1.b.M + res2.b.M; j++) {
                         if (D.GetElement(j, j) != d_ij) {
                             //System.out.println("\tD[j,j] = " + D.GetElement(j, j));
+                            if (printFlag) {
+                                System.out.println("denom *= " + D.GetElement(j, j) + " - " + d_ij);
+                            }
                             denom *= D.GetElement(j, j) - d_ij;
                         }
                     }
@@ -300,6 +306,19 @@ public class Pow {
                     System.out.print(w[i] + ", ");
                 }
                 System.out.println("\nend w");
+            }
+
+            if (printFlag) {
+                System.out.println("Ensure that Spec(D + w*wt) = {roots}");
+                Matrix wmatrtr = Matrix.rowToColumn(w);
+                Matrix wmatr = wmatrtr.transpose();
+                //D.show();
+                //wmatr.show();
+                Matrix forcheck = D.plus(wmatrtr.times(wmatr));
+
+                System.out.println("Start (D + w*wt)");
+                forcheck.show();
+                System.out.println("End (D + w*wt)");
             }
 
             //-----------------------------------------------------------------------------------
