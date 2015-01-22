@@ -51,7 +51,7 @@ public class Pow {
                 T2.show();
                 System.out.println("bm: " + bm);
                 System.out.println("--------");
-                
+
             }
 
             Pow pow1 = new Pow(T1);     //first call

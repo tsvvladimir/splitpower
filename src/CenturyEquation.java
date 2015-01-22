@@ -219,12 +219,18 @@ public class CenturyEquation {
 
         if (ro == 0) System.out.println("!!! ERROR - smth goes wrong: ro = 0;");
         if (ro < 0) {
+            if (true) {
+                System.out.println("start count tail for case ro < 0");
+            }
             Double root = tail(u.length-1, d[u.length-1] +1);
             if (addsolflag) {
                 System.out.println("add solution with case ro < 0 and root:" + root);
             }
             solutions.addLast(root);
         } else {
+            if (true) {
+                System.out.println("start count tail for case ro > 0");
+            }
             Double root = tail(0, d[0]-1);
             if (addsolflag) {
                 System.out.println("add solution with case ro > 0 and root:" + root);
