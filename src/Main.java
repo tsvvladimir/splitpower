@@ -4,9 +4,12 @@ public class Main {
         //Matrix m = new Matrix(new double[][] {  {6, 3.5, 0},
         //        {3.5, 5, 2},
         //        {0, 2, 7}});
-        Matrix m = new Matrix(new double[][] {  {1, 2, 3},
-                                                {2, 1, 2},
-                                                {3, 2, 1}});
+        //Matrix m = new Matrix(new double[][] {  {1, 2, 3},
+        //                                        {2, 1, 2},
+        //                                        {3, 2, 1}});
+        Matrix m = new Matrix(new double[][] { {6, 3.5, 0},
+                                                {3.5, 5, 2},
+                                                {0, 2, 7}});
         //Matrix m = Matrix.identity(5);
         m.show();
         Pow pow = new Pow(m);
