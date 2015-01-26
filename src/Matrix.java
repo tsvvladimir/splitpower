@@ -324,7 +324,7 @@ final public class Matrix {
             a.setElement(i, 0, a.GetElement(i, 0) / norm);
         }
         if (a.GetElement(0, 0) < 0) {
-            a.muldig(-1.0);
+            //a.muldig(-1.0);
         }
         return a;
     }

@@ -107,6 +107,13 @@ public class Pow {
             Matrix Q1t = res1.a.transpose();
             Matrix Q2t = res2.a.transpose();
 
+            if (printFlag) {
+                System.out.println("check Q1t:");
+                Q1t.show();
+                System.out.println("check Q2t:");
+                Q2t.show();
+            }
+
             // (a column) u =   (   last column of Q1t  )
             //                  (   first column of Q2t )
             Matrix u = new Matrix(res1.b.M + res2.b.M, 1);
@@ -119,9 +126,9 @@ public class Pow {
             //set first column of Q2t to u
             for (int i = 0; i < res2.b.M; i++) {
                 //System.out.println("\t\tcur Q2^t(i,0) = " + Q2t.GetElement(i, 0) + "; eps=" + eps);
-                if (Math.abs(Q2t.GetElement(i, Q2t.N-1)) > eps) {
+                if (Math.abs(Q2t.GetElement(i, 0)) > eps) {
                     //System.out.println("\t\tok");
-                    u.setElement(i + res1.b.M, 0, Q2t.GetElement(i, Q2t.N-1));
+                    u.setElement(i + res1.b.M, 0, Q2t.GetElement(i, 0));
                 }
             }
 
@@ -317,8 +324,9 @@ public class Pow {
                 Matrix forcheck = D.plus(wmatrtr.times(wmatr));
 
                 System.out.println("Start (D + w*wt)");
-                forcheck.show();
+                forcheck.show2();
                 System.out.println("End (D + w*wt)");
+
             }
 
             //-----------------------------------------------------------------------------------
@@ -533,6 +541,14 @@ public class Pow {
                 swapedQfinal.show();
                 System.out.println(" ---check currentQ * Q':");
                 Qfinal.show();
+            }
+
+            if (printFlag) {
+                System.out.println("\n ---check T = Q * LLL * Q^(-1) :");
+                Matrix Tcheck = Qfinal.times(LLL).times(Qfinal.degMin1());
+                Tcheck.show();
+                System.out.println("\n L:");
+                LLL.show();
             }
 
             QL.a = Qfinal;//Q111;//
