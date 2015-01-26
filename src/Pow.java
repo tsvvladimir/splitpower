@@ -521,10 +521,12 @@ public class Pow {
                     swapedQfinal.setElement(j, i, Q.GetElement(j, perm1[i]));
             }
             Q = swapedQfinal;
+
             //Q = Q.transpose();
 
 
             Matrix Qfinal = Q.times(Q111);
+
             if (false) {
                 System.out.println("check u:");
                 System.out.println("Q1^t:");
@@ -544,8 +546,10 @@ public class Pow {
             }
 
             if (printFlag) {
-                System.out.println("\n ---check T = Q * LLL * Q^(-1) :");
-                Matrix Tcheck = Qfinal.times(LLL).times(Qfinal.degMin1());
+                //System.out.println("\n ---check T = Q * LLL * Q^(-1) :");
+                //Matrix Tcheck = Qfinal.times(LLL).times(Qfinal.degMin1());
+                System.out.println("\n ---check T = Q * LLL * Q^(t) :");
+                Matrix Tcheck = Qfinal.times( D.plus(u.times(u.transpose()).muldig(bm))).times(Qfinal.transpose());
                 Tcheck.show();
                 System.out.println("\n L:");
                 LLL.show();
