@@ -15,9 +15,9 @@ public class Main {
         Pow pow = new Pow(m);
         PairMatrix res = pow.p;
         System.out.println("first:\n");
-        res.a.show2();
+        res.a.show();
         System.out.println("second:\n");
-        res.b.show2();
+        res.b.show();
         System.out.println("пока");
     }
 }
