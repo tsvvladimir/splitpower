@@ -95,6 +95,7 @@ public class Pow {
             }
 
             //set elements, which are epsela-close to each other - equal
+            /*!!!!!!!!!!!!!!!!not forget to uncommet!!!!!!!!!!!!!!!
             for (int i = 0; i < (res1.b.M + res2.b.M); i++) {
                 for (int j = 0; j < (res1.b.M + res2.b.M); j++) {
                     if ((i != j) && ((Math.abs(D.GetElement(i, i) - D.GetElement(j, j))) < eps)) {
@@ -102,6 +103,7 @@ public class Pow {
                     }
                 }
             }
+            */
 
             //----------------------- build u --------------------------------------------------
             Matrix Q1t = res1.a.transpose();
@@ -503,7 +505,7 @@ public class Pow {
                 for (int zz = 0; zz < Q2t.N; zz++)
                     Q.setElement(z + Q1t.M, zz + Q1t.N, Q2t.GetElement(z, zz));
             }
-            //Q = Q.transpose();
+            Q = Q.transpose();
 
             //Qfinal = Qfinal.transpose();
 
@@ -543,7 +545,7 @@ public class Pow {
             }
 
             Matrix saveQ111 = new Matrix(Q111.data);
-            saveQ111 = saveQ111.transpose();
+            //saveQ111 = saveQ111.transpose();
 
             Matrix newsaveQ111 = new Matrix(saveQ111.data);
             for (int i = 0; i < perm1.length; i++) {
@@ -562,7 +564,11 @@ public class Pow {
 
 
             //Matrix Qfinal = saveQ.times(saveQ111);
-            Matrix Qfinal = Q.times(Q111);
+
+           // Matrix Qfinal = Q.times(Q111);
+
+            Matrix Qfinal = Q.times(saveQ111);
+
             Matrix Qprev = new Matrix(Q.data);
             Qprev = Qprev.transpose();
 
@@ -619,7 +625,7 @@ public class Pow {
                 }
             }
 
-            if (true) {
+            if (false) {
                 Matrix newQfinal = new Matrix(Qfinal);
                 for (int i = 0; i < perm1.length; i++) {
                     for (int j = 0; j < perm1.length; j++)
@@ -659,7 +665,12 @@ public class Pow {
 
                 System.out.println("\n check for swapped T = Q (D + wwt) Qt");
                 Matrix wmatr = Matrix.rowToColumn(w);
-                Matrix Tcheck3 = Qprev.times(D.plus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
+                Matrix Tcheck3;
+                if (bm < 0) {
+                     Tcheck3 = Qprev.times(D.minus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
+                } else {
+                    Tcheck3 = Qprev.times(D.plus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
+                }
                 Tcheck3.show();
                 System.out.println("\n L:");
                 LLL.show();
