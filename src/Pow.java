@@ -179,7 +179,9 @@ public class Pow {
                 System.out.println();
             }
 
+            Matrix prevu = new Matrix(u.data);
             u = newu;
+            Matrix prevD = new Matrix(D.data);
             D = newD;
 
             //----------------to vekovoe - u column and D diagonal---------------------------
@@ -561,6 +563,14 @@ public class Pow {
 
             //Matrix Qfinal = saveQ.times(saveQ111);
             Matrix Qfinal = Q.times(Q111);
+            Matrix Qprev = new Matrix(Q.data);
+            Qprev = Qprev.transpose();
+
+            Matrix newQprev = new Matrix(Qprev.data);
+            for (int i = 0; i < perm1.length; i++) {
+                for (int j = 0; j < perm1.length; j++)
+                    newQprev.setElement(j, i, Qprev.GetElement(j, perm1[i]));
+            }
 
 
             if (false) {
@@ -601,7 +611,7 @@ public class Pow {
 
 
 
-            if (false) {
+            if (true) {
                 for (int i = 0; i < perm1.length / 2; i++) {
                     double temp = LLL.data[i][i];
                     LLL.data[i][i] = LLL.data[perm1[i]][perm1[i]];
@@ -609,7 +619,7 @@ public class Pow {
                 }
             }
 
-            if (false) {
+            if (true) {
                 Matrix newQfinal = new Matrix(Qfinal);
                 for (int i = 0; i < perm1.length; i++) {
                     for (int j = 0; j < perm1.length; j++)
@@ -637,8 +647,24 @@ public class Pow {
                 //Matrix Tcheck = Qfinal.times( D.plus(u.times(u.transpose()).muldig(bm))).times(Qfinal.transpose());
                 Matrix Tcheck = Qfinal.times(LLL).times(Qfinal.degMin1());
                 Tcheck.show();
+
+
+
+                System.out.println("\n chec for swapped T = Q (D + bmuut) Qt");
+                Matrix Tcheck2 = Qprev.times(D.plus(u.times(u.transpose()).muldig(bm))).times(Qprev.transpose());
+                Tcheck2.show();
+                System.out.println("\n chec T = Q (D + bmuut) Qt");
+                Matrix Tcheck21 = newQprev.times(prevD.plus(prevu.times(prevu.transpose()).muldig(bm))).times(newQprev.transpose());
+                Tcheck21.show();
+
+                System.out.println("\n check for swapped T = Q (D + wwt) Qt");
+                Matrix wmatr = Matrix.rowToColumn(w);
+                Matrix Tcheck3 = Qprev.times(D.plus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
+                Tcheck3.show();
                 System.out.println("\n L:");
                 LLL.show();
+                Qprev.show();
+                newQprev.show();
             }
 
 
