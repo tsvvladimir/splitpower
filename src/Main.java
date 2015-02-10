@@ -12,10 +12,12 @@ public class Main {
                                                 {0, 2, 7}});
         //Matrix m = Matrix.identity(5);
         m.show();
+        m.show2();
         Pow pow = new Pow(m);
         PairMatrix res = pow.p;
         System.out.println("first:\n");
         res.a.show();
+        res.a.show2();
         System.out.println("second:\n");
         res.b.show();
         System.out.println("пока");

@@ -61,7 +61,7 @@ public class Pow {
             PairMatrix res2 = pow2.p;   //get Q2 and L2
 
             if (printFlag) {
-                System.out.println("will be div:" + div);
+                System.out.println("after call will be div:" + div);
 
                 System.out.println("---------\nT:");
                 T.show();
@@ -95,7 +95,6 @@ public class Pow {
             }
 
             //set elements, which are epsela-close to each other - equal
-            /*!!!!!!!!!!!!!!!!not forget to uncommet!!!!!!!!!!!!!!!
             for (int i = 0; i < (res1.b.M + res2.b.M); i++) {
                 for (int j = 0; j < (res1.b.M + res2.b.M); j++) {
                     if ((i != j) && ((Math.abs(D.GetElement(i, i) - D.GetElement(j, j))) < eps)) {
@@ -103,7 +102,6 @@ public class Pow {
                     }
                 }
             }
-            */
 
             //----------------------- build u --------------------------------------------------
             Matrix Q1t = res1.a.transpose();
@@ -150,7 +148,7 @@ public class Pow {
             Matrix newu = new Matrix(u.data);
             Matrix newD = new Matrix(D.data);
 
-            Double[] midarr = new Double[newD.M];
+            Double[] midarr = new Double[newD.M];//mas of diagonal elements of matrix D (=newD now)
             for (int i = 0; i < newD.M; i++) {
                 midarr[i] = newD.GetElement(i, i);
             }
@@ -257,7 +255,7 @@ public class Pow {
                     for (int j = 0; j < res1.b.M + res2.b.M; j++) {
                         //System.out.println("\troots[j] = " + roots[j]);
                         if (printFlag) {
-                            System.out.println("nom *= " + roots[j] + " - " + d_ij);
+                            System.out.println("\tnom *= " + roots[j] + " - " + d_ij);
                         }
                         nom *= roots[j] - d_ij;
                     }
@@ -265,7 +263,7 @@ public class Pow {
                         if (D.GetElement(j, j) != d_ij) {
                             //System.out.println("\tD[j,j] = " + D.GetElement(j, j));
                             if (printFlag) {
-                                System.out.println("denom *= " + D.GetElement(j, j) + " - " + d_ij);
+                                System.out.println("\tdenom *= " + D.GetElement(j, j) + " - " + d_ij);
                             }
                             denom *= D.GetElement(j, j) - d_ij;
                         }
@@ -311,7 +309,7 @@ public class Pow {
             }
 
             if (printFlag) {//(false) {//
-                D.show();
+                //D.show();
                 System.out.println("w:");
                 for (int i = 0; i < w.length; i++) {
                     System.out.print(w[i] + ", ");
@@ -370,11 +368,10 @@ public class Pow {
             //eigenvector = null;
             //double[][] ismQ1 = new double[res1.b.M + res2.b.M][res1.b.M + res2.b.M];
 
+            //creating of eigenvectors matrix
             ArrayList<Matrix> eigenvectors = new ArrayList<Matrix>();
 
             for (int z = 0; z < roots.length; z++) {
-
-                //creating of eigenvectors matrix
 
                 if (!dijarr.contains(roots[z])) {
                     Matrix eigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
@@ -383,8 +380,8 @@ public class Pow {
                         System.out.println("\nadd eigenvector with case 0");
                         eigenvector.show();
                     }
-                    Matrix normedeigenvector = D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
-                    normedeigenvector = normedeigenvector.getNormed();
+                    Matrix normedeigenvector = eigenvector.getNormed();//D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                    //normedeigenvector = normedeigenvector.getNormed();
                     if (printFlag) {
                         System.out.println("\nadd normed eigenvector with case 0");
                         normedeigenvector.show();
@@ -458,7 +455,8 @@ public class Pow {
 
             //-------------------------- set blocks ------------------------------------------------
 
-            Matrix LLL = Matrix.rowToDiag(roots);
+            //create L - diagonal matrix with eigenvalues (roots of century equation)
+            Matrix L = Matrix.rowToDiag(roots);
 
 
             //build Q' - matrix of eigenvectors
@@ -481,8 +479,17 @@ public class Pow {
             //Q111 is Q' - matrix of eigenvectors
             Matrix Q111 = new Matrix(ismQ1);
 
+            //--swap Q' or not? consideration that Q' was counted using swaped matrixes---------------------
+            Matrix swapedBackQshtrih = new Matrix(Q111);
+            if (true) {
+                for (int i = 0; i < perm1.length; i++) {
+                    for (int j = 0; j < Q111.M; j++)//perm1.length; j++)
+                        swapedBackQshtrih.setElement(j, i, Q111.GetElement(j, perm1[i]));
+                }
+            }
+
             if (printFlag) {
-                System.out.println("check D + bm*uu^t");
+                System.out.println("check D + bm*uu^t (must be = T)");
                 D.plus(u.times(u.transpose()).muldig(bm)).show();
                 System.out.println("number of roots: " + roots.length + "\nnumber of eigenvectors: " + eigenvectors.size());
                 System.out.println("---check eigenvectors:");
@@ -492,10 +499,11 @@ public class Pow {
                 }
                 System.out.println("---check Q' (matrix of eigevectors):");
                 Q111.show();
+                System.out.println("and swaped back Q':");
+                swapedBackQshtrih.show();
             }
 
             //--------------count Q = ( (Q1 0) (0 Q2) ) * Q' and swap it (if needed?)---------------
-
             Matrix Q = new Matrix(Q1t.M + Q2t.M, Q1t.N + Q2t.N);
             for (int z = 0; z < Q1t.M; z++) {
                 for (int zz = 0; zz < Q1t.N; zz++)
@@ -505,7 +513,7 @@ public class Pow {
                 for (int zz = 0; zz < Q2t.N; zz++)
                     Q.setElement(z + Q1t.M, zz + Q1t.N, Q2t.GetElement(z, zz));
             }
-            Q = Q.transpose();
+            Q = Q.transpose();//because it was build from transposed matrixes - so return it back
 
             //Qfinal = Qfinal.transpose();
 
@@ -525,12 +533,12 @@ public class Pow {
                 Q.show();
             }
 
+            //---count-swaped--Qfinal-----swap or not???---------------------------------------------
             Matrix swapedQfinal = new Matrix(Q);
             for (int i = 0; i < perm1.length; i++) {
                 for (int j = 0; j < perm1.length; j++)
                     swapedQfinal.setElement(j, i, Q.GetElement(j, perm1[i]));
             }
-            Matrix saveQ = new Matrix(Q.data);
             Q = swapedQfinal;
 
             //Q = Q.transpose();
@@ -540,12 +548,12 @@ public class Pow {
                 Q.show();
             }
 
-            if (false) {
-                Q = Q.transpose();
-            }
+            //-------what is it???---------------------------------------
+
+            Matrix saveQ = new Matrix(Q.data);
 
             Matrix saveQ111 = new Matrix(Q111.data);
-            //saveQ111 = saveQ111.transpose();
+            saveQ111 = saveQ111.transpose();
 
             Matrix newsaveQ111 = new Matrix(saveQ111.data);
             for (int i = 0; i < perm1.length; i++) {
@@ -554,21 +562,21 @@ public class Pow {
             }
             saveQ111 = newsaveQ111;
 
-            if (printFlag) {
+            if (false) {
                 System.out.println("\n\t\tQ:");
                 saveQ.show();
                 System.out.println("\n\t\tQ':");
                 saveQ111.show();
             }
-
+            //-----------count Qfinal = ((Q1 0) (0 Q2)) * Q' ------------------------------------------------
 
 
             //Matrix Qfinal = saveQ.times(saveQ111);
+            //Matrix Qfinal = Q.times(Q111);
 
-           // Matrix Qfinal = Q.times(Q111);
+            Matrix Qfinal = Q.times(swapedBackQshtrih);
 
-            Matrix Qfinal = Q.times(saveQ111);
-
+            //-------------for-check--------------------
             Matrix Qprev = new Matrix(Q.data);
             Qprev = Qprev.transpose();
 
@@ -583,28 +591,24 @@ public class Pow {
                 System.out.println("check u:");
                 System.out.println("Q1^t:");
                 res1.a.transpose().show();
+
                 System.out.println("Q2^t:");
                 res2.a.transpose().show();
+
                 System.out.println("for Q^t * v: div = " + div);
                 System.out.println("u:");
                 u.show();
-
             }
             if (printFlag) {
-                System.out.println("\n ---check Q = swapped ( (Q1, 0) (0, Q2) ) :");
+                System.out.println("\n ---check swapedQ = swapped ( (Q1, 0) (0, Q2) ) :");
                 swapedQfinal.show();
+
                 System.out.println(" ---check currentQ * Q':");
                 Qfinal.show();
             }
-
-
-
-            Matrix oldQfinal = new Matrix(Qfinal.data);
-            Matrix oldLLL = new Matrix(LLL.data);
-
             if (printFlag) {
-                System.out.println("check LLL before:");
-                LLL.show();
+                System.out.println("check L before:");
+                L.show();
                 System.out.println("check Qfinal before:");
                 Qfinal.show();
                 System.out.println("check perm1:");
@@ -615,17 +619,23 @@ public class Pow {
 
             //boolean acceptchanges = true;
 
-
-
-            if (true) {
-                for (int i = 0; i < perm1.length / 2; i++) {
-                    double temp = LLL.data[i][i];
-                    LLL.data[i][i] = LLL.data[perm1[i]][perm1[i]];
-                    LLL.data[perm1[i]][perm1[i]] = temp;
-                }
-            }
+            //----------try-to--swap--different matrixes--to-get--needed---result------------------
 
             if (false) {
+                for (int i = 0; i < perm1.length / 2; i++) {
+                    double temp = L.data[i][i];
+                    L.data[i][i] = L.data[perm1[i]][perm1[i]];
+                    L.data[perm1[i]][perm1[i]] = temp;
+                }
+            }
+            if (false) {
+                Matrix newL = new Matrix(L);
+                for (int i = 0; i < perm1.length; i++)
+                    newL.setElement(i, i, L.GetElement(perm1[i], perm1[i]));
+                L = newL;
+            }
+
+            if (true) {
                 Matrix newQfinal = new Matrix(Qfinal);
                 for (int i = 0; i < perm1.length; i++) {
                     for (int j = 0; j < perm1.length; j++)
@@ -638,9 +648,11 @@ public class Pow {
                 Qfinal = Qfinal.transpose();
             }
 
+            //-------------different-----checks-------------------------------------------------
+
             if (printFlag) {
-                System.out.println("check LLL after:");
-                LLL.show();
+                System.out.println("check L after:");
+                L.show();
                 System.out.println("check Qfinal after:");
                 Qfinal.show();
             }
@@ -648,10 +660,10 @@ public class Pow {
             if (printFlag) {
                 //System.out.println("\n ---check T = Q * LLL * Q^(-1) :");
                 //Matrix Tcheck = Qfinal.times(LLL).times(Qfinal.degMin1());
-                System.out.println("\n ---check T = Q * LLL * Q^(-1) :");
+                System.out.println("\n ---check T = Q * L * Q^(-1) :");
                 T.show();
                 //Matrix Tcheck = Qfinal.times( D.plus(u.times(u.transpose()).muldig(bm))).times(Qfinal.transpose());
-                Matrix Tcheck = Qfinal.times(LLL).times(Qfinal.degMin1());
+                Matrix Tcheck = Qfinal.times(L).times(Qfinal.degMin1());
                 Tcheck.show();
 
 
@@ -665,29 +677,44 @@ public class Pow {
 
                 System.out.println("\n check for swapped T = Q (D + wwt) Qt");
                 Matrix wmatr = Matrix.rowToColumn(w);
-                Matrix Tcheck3;
-                if (bm < 0) {
-                     Tcheck3 = Qprev.times(D.minus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
-                } else {
-                    Tcheck3 = Qprev.times(D.plus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
-                }
+                Matrix Tcheck3 = Qprev.times(D.plus(wmatr.times(wmatr.transpose())).times(Qprev.transpose()));
                 Tcheck3.show();
                 System.out.println("\n L:");
-                LLL.show();
+                L.show();
                 Qprev.show();
                 newQprev.show();
+
+                System.out.println("\n\n========================\n\none more check:\n");
+
+                for (int i = 0; i < perm1.length; i++){
+                    Matrix vector = new Matrix(Q.M, 1);
+                    for (int j = 0; j < Q.M; j++)
+                        vector.setElement(j, 0, Qfinal.GetElement(j, i));
+                    System.out.println("vector:");
+                    vector.show();
+
+                    System.out.println("T * eigenvector[" + i + "] = ");
+                    T.times(eigenvectors.get(i)).show();
+
+                    System.out.println("must be equal to "+L.GetElement(i,i)+"* same eigenvector = ");
+                    vector.mulOnConstant(L.GetElement(i,i)).show();
+
+                    System.out.println();
+                }
+                System.out.println("\n\n=======================================");
             }
 
-
+            //----------finished-checks-----return--results--------------------------
 
             QL.a = Qfinal;//Q111;//
-            QL.b = LLL;
+            QL.b = L;
 
-            System.out.println("\n\t\t\tinPowfirst:\n");
-            QL.a.show();
-            System.out.println("\n" +
-                    "\t\t\tinPowsecond:\n");
-            QL.b.show();
+            if (printFlag) {
+                System.out.println("\n\t\t\tinPowfirst:\n");
+                QL.a.show();
+                System.out.println("\n\t\t\tinPowsecond:\n");
+                QL.b.show();
+            }
         }
         return QL;
     }
