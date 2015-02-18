@@ -380,7 +380,7 @@ public class Pow {
                         System.out.println("\nadd eigenvector with case 0");
                         eigenvector.show();
                     }
-                    Matrix normedeigenvector = eigenvector.getNormed();//D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
+                    Matrix normedeigenvector = eigenvector;//D.minus(Matrix.identity(D.M).muldig(roots[z])).degMin1().times(Matrix.rowToColumn(w));
                     //normedeigenvector = normedeigenvector.getNormed();
                     if (printFlag) {
                         System.out.println("\nadd normed eigenvector with case 0");
@@ -572,9 +572,9 @@ public class Pow {
 
 
             //Matrix Qfinal = saveQ.times(saveQ111);
-            //Matrix Qfinal = Q.times(Q111);
+            Matrix Qfinal = Q.times(Q111);
 
-            Matrix Qfinal = Q.times(swapedBackQshtrih);
+            //Matrix Qfinal = Q.times(swapedBackQshtrih);
 
             //-------------for-check--------------------
             Matrix Qprev = new Matrix(Q.data);
@@ -635,7 +635,7 @@ public class Pow {
                 L = newL;
             }
 
-            if (true) {
+            if (false) {
                 Matrix newQfinal = new Matrix(Qfinal);
                 for (int i = 0; i < perm1.length; i++) {
                     for (int j = 0; j < perm1.length; j++)
@@ -694,10 +694,11 @@ public class Pow {
                     vector.show();
 
                     System.out.println("T * eigenvector[" + i + "] = ");
-                    T.times(eigenvectors.get(i)).show();
+                    //T.times(eigenvectors.get(i)).show();
+                    T.times(vector.getNormed()).show();
 
                     System.out.println("must be equal to "+L.GetElement(i,i)+"* same eigenvector = ");
-                    vector.mulOnConstant(L.GetElement(i,i)).show();
+                    vector.getNormed().mulOnConstant(L.GetElement(i,i)).show();
 
                     System.out.println();
                 }
